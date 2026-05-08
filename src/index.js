@@ -21,3 +21,7 @@ pool.query("SELECT NOW()", (err, res) => {
         console.log(res.rows)
     }
 })
+
+const stencilRoutes = require("./routes/stencils")
+
+app.use("/stencils", stencilRoutes)
