@@ -21,10 +21,6 @@ async function getStencils(req, res) {
 
 }
 
-module.exports = {
-    getStencils
-}
-
 async function  getStencilsTotal(req, res) {
 
     try {
@@ -47,5 +43,6 @@ async function  getStencilsTotal(req, res) {
 }
 
 module.exports = {
+    getStencils,
     getStencilsTotal
 }

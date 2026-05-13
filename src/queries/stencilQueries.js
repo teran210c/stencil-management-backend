@@ -7,20 +7,18 @@ async function getAllStencils() {
         `)
         return result.rows    
 }
-module.exports = {
-    getAllStencils
-}
 
 const getStencilsTotal = async () => {
 
     const result = await pool.query(
-        "SELECT count(*) FROM stencils"
+        "SELECT COUNT(*) FROM stencil"
     )
 
-    return result[0]
+    return result.rows[0]
 
 }
 
 module.exports = {
+    getAllStencils,
     getStencilsTotal
 }
