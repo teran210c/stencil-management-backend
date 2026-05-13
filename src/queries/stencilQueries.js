@@ -11,3 +11,16 @@ module.exports = {
     getAllStencils
 }
 
+const getStencilsTotal = async () => {
+
+    const result = await pool.query(
+        "SELECT count(*) FROM stencils"
+    )
+
+    return result[0]
+
+}
+
+module.exports = {
+    getStencilsTotal
+}
