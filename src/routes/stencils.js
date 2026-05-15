@@ -8,4 +8,6 @@ router.get("/", controller.getStencils)
 
 router.get("/total", controller.getStencilsTotal)
 
+router.get("/:stencilId", controller.getStencilById,)
+
 module.exports = router

@@ -18,7 +18,20 @@ const getStencilsTotal = async () => {
 
 }
 
+const getStencilById = async (stencilId) => {
+
+    const result = await pool.query(
+        `SELECT * FROM stencil
+        WHERE id = $1     
+        `,
+        [stencilId]
+    )
+
+    return result.rows[0]
+}
+
 module.exports = {
     getAllStencils,
-    getStencilsTotal
+    getStencilsTotal,
+    getStencilById
 }

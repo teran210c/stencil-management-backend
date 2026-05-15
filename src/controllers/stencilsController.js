@@ -42,7 +42,29 @@ async function  getStencilsTotal(req, res) {
     
 }
 
+async function getStencilById(req, res) {
+    const { stencilId } = req.params
+
+    try {
+
+        const stencil = await queries.getStencilById(stencilId)
+
+        res.json(stencil)
+        
+    } catch (error) {
+
+        console.error(error)
+
+        res.status(500).json({
+            error: "Server error"
+        })
+        
+    }
+    
+}
+
 module.exports = {
     getStencils,
-    getStencilsTotal
+    getStencilsTotal,
+    getStencilById
 }
