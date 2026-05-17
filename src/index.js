@@ -26,4 +26,8 @@ pool.query("SELECT NOW()", (err, res) => {
 
 const stencilRoutes = require("./routes/stencils")
 
+const validationRoutes = require("./routes/validations")
+
 app.use("/stencils", stencilRoutes)
+
+app.use("/validations", validationRoutes)
