@@ -10,4 +10,6 @@ router.post("/start-validation/:stencilId", controller.startValidation)
 
 router.get("/:stencilId", controller.getValidationById)
 
+router.get("/:validationId/details", controller.getValidationDetails)
+
 module.exports = router

@@ -44,7 +44,30 @@ async function getValidationById (req, res) {
     }
 }
 
+async function getValidationDetails(req, res) {
+
+    const { validationId } = req.params
+
+    try {
+
+        const details = await queries.getValidationDetails(validationId)
+
+        res.json(details)
+
+    } catch (error) {
+
+        console.error(error)
+
+        res.status(500).json({
+            error: "Error fetching validation details"
+        })
+
+    }
+
+}
+
 module.exports = {
     startValidation,
-    getValidationById
+    getValidationById,
+    getValidationDetails
 }
