@@ -66,8 +66,36 @@ async function getValidationDetails(req, res) {
 
 }
 
+async function updateChecklistItem(req, res) {
+
+    const { itemId } = req.params
+
+    const { result } = req.body
+
+    try {
+        
+        const updatedItem = await queries.updateChecklistItem(
+            itemId,
+            result
+        )
+
+        res.json(updatedItem)
+
+    } catch (error) {
+
+        console.error(error)
+
+        res.status(500).json({
+            error: "Error updating checklist item"
+        })
+        
+    }
+    
+}
+
 module.exports = {
     startValidation,
     getValidationById,
-    getValidationDetails
+    getValidationDetails,
+    updateChecklistItem
 }

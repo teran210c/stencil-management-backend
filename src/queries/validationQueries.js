@@ -105,6 +105,8 @@ const getValidationDetails = async (validationId) => {
         FROM validation_checklist
 
         WHERE validation_id = $1
+
+        ORDER BY id ASC
         `,
         [validationId]
     )
@@ -116,8 +118,32 @@ const getValidationDetails = async (validationId) => {
 
 }
 
+const updateChecklistItem = async (
+    itemId,
+    result
+) => {
+    const updatedResult = await pool.query(
+        `
+        UPDATE validation_checklist
+
+        SET result = $1
+
+        WHERE id = $2
+
+        RETURNING *        
+        `,
+        [
+            result,
+            itemId
+        ]
+    )
+
+    return updatedResult.rows[0]
+}
+
 module.exports = {
     createValidation,
     getValidationById,
-    getValidationDetails
+    getValidationDetails,
+    updateChecklistItem
 }
