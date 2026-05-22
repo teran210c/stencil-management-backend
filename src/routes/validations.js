@@ -14,4 +14,6 @@ router.get("/:validationId/details", controller.getValidationDetails)
 
 router.put("/checklist/:itemId", controller.updateChecklistItem)
 
+router.put("/:validationId/complete", controller.completeValidation)
+
 module.exports = router

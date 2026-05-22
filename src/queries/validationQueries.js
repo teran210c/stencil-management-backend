@@ -141,9 +141,53 @@ const updateChecklistItem = async (
     return updatedResult.rows[0]
 }
 
+const completeValidation = async (
+    validationId,
+    result
+) => {
+    const validationRes = await pool.query(
+    `
+    UPDATE stencil_validation
+
+    SET result = $1
+
+    WHERE id = $2
+
+    RETURNING *
+    `,
+    [
+        result,
+        validationId
+    ])
+
+    await pool.query(
+        `
+        UPDATE validation_checklist SET result = 'FAILED'
+        WHERE validation_id = $1
+        AND result = 'PENDING'
+        `,
+        [validationId]
+    )
+
+    const checklistRes = await pool.query(
+        `
+        SELECT * FROM validation_checklist 
+        WHERE validation_id = $1
+        ORDER BY id ASC        
+        `,
+        [validationId]
+    )
+
+    return {
+        validation: validationRes.rows[0],
+        checklist: checklistRes.rows
+    } 
+}
+
 module.exports = {
     createValidation,
     getValidationById,
     getValidationDetails,
-    updateChecklistItem
+    updateChecklistItem,
+    completeValidation
 }

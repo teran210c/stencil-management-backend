@@ -1,3 +1,4 @@
+const pool = require("../db")
 const queries = require("../queries/validationQueries")
 
 async function startValidation(req, res) {
@@ -93,9 +94,33 @@ async function updateChecklistItem(req, res) {
     
 }
 
+async function completeValidation(req, res) {
+    const { validationId } = req.params
+    const { result } = req.body
+
+    try {
+        
+        const updatedData = await queries.completeValidation(
+            validationId,
+            result
+        )
+
+        res.json(updatedData)
+
+    } catch (error) {
+        console.error(error)
+        res.status(500).json({
+            error: "Error at completing validation"
+        })
+        
+    }
+    
+}
+
 module.exports = {
     startValidation,
     getValidationById,
     getValidationDetails,
-    updateChecklistItem
+    updateChecklistItem,
+    completeValidation
 }
