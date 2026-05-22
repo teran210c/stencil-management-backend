@@ -138,24 +138,7 @@ const updateChecklistItem = async (
     return updatedResult.rows[0]
 }
 
-const completeValidation = async (
-    validationId,
-    result
-) => {
-    const validationRes = await pool.query(
-    `
-    UPDATE stencil_validation
-
-    SET result = $1
-
-    WHERE id = $2
-
-    RETURNING *
-    `,
-    [
-        result,
-        validationId
-    ])
+const completeValidation = async (validationId) => {
 
     await pool.query(
         `
@@ -165,6 +148,28 @@ const completeValidation = async (
         `,
         [validationId]
     )
+
+    const checkFailedRes = await pool.query(
+        `
+        SELECT EXISTS (
+            SELECT 1 FROM validation_checklist 
+            WHERE validation_id = $1 AND result = 'FAILED'
+        ) as has_failed
+        `,
+        [validationId]
+    )
+
+    const finalResult = checkFailedRes.rows[0].has_failed ? 'FAILED' : 'PASSED'
+
+     const validationRes = await pool.query(
+        `
+        UPDATE stencil_validation
+        SET result = $1
+        WHERE id = $2
+        RETURNING *
+        `,
+        [finalResult, validationId]
+    )   
 
     const checklistRes = await pool.query(
         `
