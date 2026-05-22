@@ -10,7 +10,7 @@ async function createValidation(stencilId) {
         )
         VALUES (
             $1,
-            'pending'
+            'PENDING'
         )
         RETURNING *        
         `,
@@ -28,9 +28,6 @@ async function createValidation(stencilId) {
     const templateItems = templateResult.rows
 
     for (const item of templateItems) {
-
-        console.log("Creating Checklist item")
-        console.log(item)
 
         await pool.query(
             `
