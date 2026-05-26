@@ -173,10 +173,10 @@ const completeValidation = async (validationId) => {
 
     const stencilId = validationRes.rows[0].stencil_id
 
-    await client.query(
+    await pool.query(
             `
             UPDATE stencil
-            SET status = $1
+            SET status = $1::stencil_status
             WHERE id = $2
             `,
             [finalResult, stencilId]
