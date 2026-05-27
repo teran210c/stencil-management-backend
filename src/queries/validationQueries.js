@@ -161,7 +161,7 @@ const completeValidation = async (validationId) => {
 
     const finalResult = checkFailedRes.rows[0].has_failed ? 'FAILED' : 'PASSED'
 
-     const validationRes = await pool.query(
+    const validationRes = await pool.query(
         `
         UPDATE stencil_validation
         SET result = $1
@@ -171,18 +171,22 @@ const completeValidation = async (validationId) => {
         RETURNING stencil_id, result
         `,
         [finalResult, validationId]
-    )   
+    )
 
     const stencilId = validationRes.rows[0].stencil_id
 
     await pool.query(
-            `
+        `
             UPDATE stencil
-            SET status = $1::stencil_status
-            WHERE id = $2
+        SET status = $1::stencil_status,
+            expiration_date = CASE 
+                WHEN $1 = 'PASSED' THEN CURRENT_DATE + (cycle_days * INTERVAL '1 day')
+                ELSE expiration_date
+            END
+        WHERE id = $2
             `,
-            [finalResult, stencilId]
-        )
+        [finalResult, stencilId]
+    )
 
     const checklistRes = await pool.query(
         `
@@ -196,7 +200,7 @@ const completeValidation = async (validationId) => {
     return {
         validation: validationRes.rows[0],
         checklist: checklistRes.rows
-    } 
+    }
 }
 
 module.exports = {
