@@ -165,6 +165,8 @@ const completeValidation = async (validationId) => {
         `
         UPDATE stencil_validation
         SET result = $1
+            validation_date = CURRENT_DATE
+
         WHERE id = $2
         RETURNING stencil_id, result
         `,
