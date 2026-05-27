@@ -164,7 +164,7 @@ const completeValidation = async (validationId) => {
     const validationRes = await pool.query(
         `
         UPDATE stencil_validation
-        SET result = $1
+        SET result = $1,
             validation_date = CURRENT_DATE
 
         WHERE id = $2
@@ -203,10 +203,27 @@ const completeValidation = async (validationId) => {
     }
 }
 
+const refreshStencilStatuses = async () => {
+
+    await pool.query(
+        `
+        UPDATE stencil
+
+        SET status = 'PENDING'
+
+        WHERE CURRENT_DATE >= expiration_date - INTERVAL '5 days'
+
+        AND status = 'PASSED'
+        `
+    )
+
+}
+
 module.exports = {
     createValidation,
     getValidationById,
     getValidationDetails,
     updateChecklistItem,
-    completeValidation
+    completeValidation,
+    refreshStencilStatuses
 }

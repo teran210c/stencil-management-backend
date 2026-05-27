@@ -16,4 +16,9 @@ router.put("/checklist/:itemId", controller.updateChecklistItem)
 
 router.put("/:validationId/complete", controller.completeValidation)
 
+router.put(
+    "/refresh-statuses",
+    controller.refreshStencilStatuses
+)
+
 module.exports = router

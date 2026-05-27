@@ -117,10 +117,33 @@ async function completeValidation(req, res) {
     
 }
 
+async function refreshStencilStatuses(req, res) {
+
+    try {
+
+        await queries.refreshStencilStatuses()
+
+        res.json({
+            message: "Stencil statuses updated"
+        })
+
+    } catch (error) {
+
+        console.error(error)
+
+        res.status(500).json({
+            error: "Error refreshing stencil statuses"
+        })
+
+    }
+
+}
+
 module.exports = {
     startValidation,
     getValidationById,
     getValidationDetails,
     updateChecklistItem,
-    completeValidation
+    completeValidation,
+    refreshStencilStatuses
 }
