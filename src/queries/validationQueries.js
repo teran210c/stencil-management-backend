@@ -219,11 +219,33 @@ const refreshStencilStatuses = async () => {
 
 }
 
+const getLatestValidationByStencil = async (stencilId) => {
+
+    const result = await pool.query(
+        `
+        SELECT *
+
+        FROM stencil_validation
+
+        WHERE stencil_id = $1
+
+        ORDER BY created_at DESC
+
+        LIMIT 1
+        `,
+        [stencilId]
+    )
+
+    return result.rows[0]
+
+}
+
 module.exports = {
     createValidation,
     getValidationById,
     getValidationDetails,
     updateChecklistItem,
     completeValidation,
-    refreshStencilStatuses
+    refreshStencilStatuses,
+    getLatestValidationByStencil
 }

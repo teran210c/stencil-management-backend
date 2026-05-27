@@ -139,11 +139,36 @@ async function refreshStencilStatuses(req, res) {
 
 }
 
+async function getLatestValidationByStencil(req, res) {
+
+    const { stencilId } = req.params
+
+    try {
+
+        const validation = await queries.getLatestValidationByStencil(
+            stencilId
+        )
+
+        res.json(validation)
+
+    } catch (error) {
+
+        console.error(error)
+
+        res.status(500).json({
+            error: "Error fetching latest validation"
+        })
+
+    }
+
+}
+
 module.exports = {
     startValidation,
     getValidationById,
     getValidationDetails,
     updateChecklistItem,
     completeValidation,
-    refreshStencilStatuses
+    refreshStencilStatuses,
+    getLatestValidationByStencil
 }

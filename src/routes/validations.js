@@ -21,4 +21,9 @@ router.put(
     controller.refreshStencilStatuses
 )
 
+router.get(
+    "/stencil/:stencilId/latest",
+    controller.getLatestValidationByStencil
+)
+
 module.exports = router
