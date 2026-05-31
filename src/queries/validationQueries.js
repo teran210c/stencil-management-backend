@@ -240,6 +240,29 @@ const getLatestValidationByStencil = async (stencilId) => {
 
 }
 
+const getAllValidations = async () => {
+
+    const result = await pool.query(
+        `
+        SELECT
+            v.id,
+            s.number,
+            v.result,
+            v.validation_date
+
+        FROM stencil_validation v
+
+        JOIN stencil s
+        ON v.stencil_id = s.id
+
+        ORDER BY v.created_at DESC
+        `
+    )
+
+    return result.rows
+
+}
+
 module.exports = {
     createValidation,
     getValidationById,
@@ -247,5 +270,6 @@ module.exports = {
     updateChecklistItem,
     completeValidation,
     refreshStencilStatuses,
-    getLatestValidationByStencil
+    getLatestValidationByStencil,
+    getAllValidations
 }

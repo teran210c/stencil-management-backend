@@ -6,6 +6,11 @@ const controller = require("../controllers/validationController")
 
 const { route } = require("./stencils")
 
+router.get(
+    "/",
+    controller.getAllValidations
+)
+
 router.post("/start-validation/:stencilId", controller.startValidation)
 
 router.get("/:stencilId", controller.getValidationById)

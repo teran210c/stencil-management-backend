@@ -183,6 +183,26 @@ async function getRecentActivity(req, res) {
 
 }
 
+async function getAllValidations(req, res) {
+
+    try {
+
+        const validations = await queries.getAllValidations()
+
+        res.json(validations)
+
+    } catch (error) {
+
+        console.error(error)
+
+        res.status(500).json({
+            error: "Error fetching validations"
+        })
+
+    }
+
+}
+
 module.exports = {
     startValidation,
     getValidationById,
@@ -191,5 +211,6 @@ module.exports = {
     completeValidation,
     refreshStencilStatuses,
     getLatestValidationByStencil,
-    getRecentActivity
+    getRecentActivity,
+    getAllValidations
 }
