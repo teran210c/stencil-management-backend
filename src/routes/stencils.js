@@ -6,8 +6,20 @@ const controller = require("../controllers/stencilsController")
 
 router.get("/", controller.getStencils)
 
-router.get("/total", controller.getStencilsTotal)
+router.get("/dashboard", controller.getDashboardData)
 
-router.get("/:stencilId", controller.getStencilById,)
+router.get(
+    "/expiring",
+    controller.getExpiringStencils
+)
+
+router.get(
+    "/recent-activity",
+    controller.getRecentActivity
+)
+
+router.get("/:stencilId", controller.getStencilById)
+
+
 
 module.exports = router

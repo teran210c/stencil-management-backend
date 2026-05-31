@@ -7,7 +7,7 @@ async function getStencils(req, res) {
 
         res.json(stencils)
 
-    } catch(error) {
+    } catch (error) {
 
         console.error(error)
 
@@ -17,29 +17,8 @@ async function getStencils(req, res) {
 
         })
 
-    }   
-
-}
-
-async function  getStencilsTotal(req, res) {
-
-    try {
-        
-        const total = await queries.getStencilsTotal()
-
-        res.json(total)
-
-
-    } catch (error) {
-
-        console.error(error)
-
-        res.status(500).json({
-            error: "Server error"
-        })
-        
     }
-    
+
 }
 
 async function getStencilById(req, res) {
@@ -50,7 +29,7 @@ async function getStencilById(req, res) {
         const stencil = await queries.getStencilById(stencilId)
 
         res.json(stencil)
-        
+
     } catch (error) {
 
         console.error(error)
@@ -58,13 +37,76 @@ async function getStencilById(req, res) {
         res.status(500).json({
             error: "Server error"
         })
-        
+
     }
-    
+
+}
+
+async function getDashboardData(req, res) {
+
+    try {
+
+        const data = await queries.getDashboardData()
+
+        res.json(data)
+
+
+    } catch (error) {
+
+        console.error(error)
+
+        res.status(500).json({
+            error: "Server error"
+        })
+
+    }
+
+}
+
+async function getExpiringStencils(req, res) {
+
+    try {
+
+        const stencils = await queries.getExpiringStencils()
+
+        res.json(stencils)
+
+    } catch (error) {
+
+        console.error(error)
+
+        res.status(500).json({
+            error: "Error fetching expiring stencils"
+        })
+
+    }
+
+}
+
+async function getRecentActivity(req, res) {
+
+    try {
+
+        const activity = await queries.getRecentActivity()
+
+        res.json(activity)
+
+    } catch (error) {
+
+        console.error(error)
+
+        res.status(500).json({
+            error: "Error fetching activity"
+        })
+
+    }
+
 }
 
 module.exports = {
     getStencils,
-    getStencilsTotal,
-    getStencilById
+    getStencilById,
+    getDashboardData,
+    getExpiringStencils,
+    getRecentActivity
 }
